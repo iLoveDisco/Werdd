@@ -44,12 +44,25 @@ class ViewController: UIViewController {
         return label
     }()
     
-    let wordCategory : UILabel = {
+    let partOfSpeech : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "noun"
         return label
     }()
+    
+    let wordRefreshButton : UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("R", for: .normal)
+        btn.backgroundColor = .red
+        btn.addTarget(self, action: #selector(handleRefreshButtonPress), for: .touchUpInside)
+        return btn
+    }()
+    
+    @objc func handleRefreshButtonPress() {
+        print("button pressed")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,11 +70,15 @@ class ViewController: UIViewController {
         view.backgroundColor = .white
         
         self.view.addSubview(appTitle)
-        self.view.addSubview(wordCardView)
-        self.wordCardView.addSubview(wordTitle)
-        self.wordCardView.addSubview(wordCategory)
-        self.wordCardView.addSubview(wordDefinition)
         
+        self.view.addSubview(wordCardView)
+        
+        self.wordCardView.addSubview(wordTitle)
+        self.wordCardView.addSubview(partOfSpeech)
+        self.wordCardView.addSubview(wordDefinition)
+        self.wordCardView.addSubview(wordRefreshButton)
+        
+        self.wordRefreshButton.addTarget(self, action: #selector(handleRefreshButtonPress), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             appTitle.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
@@ -75,15 +92,18 @@ class ViewController: UIViewController {
             wordTitle.leadingAnchor.constraint(equalTo: wordCardView.leadingAnchor, constant: 10),
             wordTitle.topAnchor.constraint(equalTo: wordCardView.topAnchor, constant: 10),
             wordTitle.heightAnchor.constraint(equalToConstant: 30),
-            wordCategory.leadingAnchor.constraint(equalTo: wordTitle.trailingAnchor,constant: 10),
-            wordCategory.heightAnchor.constraint(equalToConstant: 20),
-            wordCategory.topAnchor.constraint(equalTo: wordCardView.topAnchor, constant: 15),
-            wordCategory.bottomAnchor.constraint(equalTo: wordTitle.bottomAnchor, constant: 0),
+            partOfSpeech.leadingAnchor.constraint(equalTo: wordTitle.trailingAnchor,constant: 10),
+            partOfSpeech.heightAnchor.constraint(equalToConstant: 20),
+            partOfSpeech.topAnchor.constraint(equalTo: wordCardView.topAnchor, constant: 15),
+            partOfSpeech.bottomAnchor.constraint(equalTo: wordTitle.bottomAnchor, constant: 0),
             wordDefinition.topAnchor.constraint(equalTo: wordTitle.bottomAnchor, constant: 20),
             wordDefinition.leadingAnchor.constraint(equalTo: wordCardView.leadingAnchor, constant: 10),
             wordDefinition.trailingAnchor.constraint(equalTo: wordCardView.trailingAnchor, constant: -10),
-            wordDefinition.bottomAnchor.constraint(equalTo: wordCardView.bottomAnchor, constant: -10)
-            
+            wordDefinition.bottomAnchor.constraint(equalTo: wordCardView.bottomAnchor, constant: -10),
+            wordRefreshButton.bottomAnchor.constraint(equalTo: wordCardView.bottomAnchor, constant: -5),
+            wordRefreshButton.rightAnchor.constraint(equalTo: wordCardView.rightAnchor, constant: -5),
+            wordRefreshButton.widthAnchor.constraint(equalToConstant: 50),
+            wordRefreshButton.heightAnchor.constraint(equalToConstant: 50),
         ])
     }
 }
